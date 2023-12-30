@@ -30,7 +30,7 @@ const LandingPageBanner = () => {
       </h1>
 
       <p className="mx-auto mt-4 max-w-xl sm:text-xl md:text-2xl font-bold">
-        Provide a video and a description of the setting for your experience and WeLens will generate an app for Apple's <a href="https://www.apple.com/apple-vision-pro/" className="text-gray-400" target="_blank">Vision Pro</a> showcasing your video in a 3D environment custom built by AI.
+        Provide a video and a description of the desired setting for your immersive experience to create an app for Apple's <a href="https://www.apple.com/apple-vision-pro/" className="text-gray-400" target="_blank">Vision Pro</a> showcasing your video in an AI-generated 3D environment.
       </p>
 
       <div className="mt-8 flex flex-wrap justify-center gap-4">
@@ -82,7 +82,7 @@ const SignupModal: React.FC<SignupModalProps> = ({ setShowModal }) => {
 
     return (
       <Form method="post">
-      <Modal icon={icon} buttons={buttons} title="Create Your Account" setShowModal={setShowModal}>
+      <Modal icon={icon} buttons={buttons} title="Contact Us" setShowModal={setShowModal}>
         
                  
           <div className="mt-2">

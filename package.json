@@ -51,7 +51,6 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-particles": "^2.12.2",
-    "react-tsparticles": "^2.12.2",
     "resend": "^2.1.0",
     "tiny-invariant": "^1.2.0",
     "tsparticles-preset-sea-anemone": "^2.12.0"
