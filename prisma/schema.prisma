@@ -1,0 +1,101 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id    String @id @default(cuid())
+  email String @unique
+  name String
+
+  role String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  password Password?
+  sessions Session[] // needed?
+
+  products   Product[]
+  productIntegrations ProductIntegration[]
+}
+
+model Password {
+  hash String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
+}
+
+// Is Session needed?
+model Session {
+  id    String @id @default(cuid())
+  content String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+
+}
+
+model Product {
+  id    String @id @default(cuid())
+  name String
+  slug String @unique
+  description  String
+  productUrl String?
+  thumbnailUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // TODO: a Product may be made without an owning user and claimed later
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+  integrationSettings Json? // this can always be put into its own model later if needed 
+  integrations ProductIntegration[]
+}
+
+model ProductIntegration {
+  id    String @id @default(cuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  configurationUpdatedAt DateTime? // we may want to trigger this whenever the product settings are updated to prioritize an update?
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
+  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productId String
+  status  String
+  gptId String?
+  
+  aiAssistants AIAssistant[]
+  
+  configuration Json? 
+}
+
+model AIAssistant {
+  id    String @id @default(cuid())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  productIntegration ProductIntegration  @relation(fields: [productIntegrationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productIntegrationId String
+
+}
+
+model EmailSignup {
+  id    String @id @default(cuid())
+  email String @unique
+  additionalInfo String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
